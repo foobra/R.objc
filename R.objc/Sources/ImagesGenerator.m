@@ -140,7 +140,7 @@
         {
             if ([Session shared].isResourceBundle)
             {
-                implString = [NSString stringWithFormat:@"return [UIImage imageNamed:@\"%@\" inBundle:[NSBundle bundleWithPath:[[NSBundle bundleForClass:self.class] pathForResource:@\"%@\" ofType:@\"bundle\"]] compatibleWithTraitCollection:nil];", res.originalName, [Session shared].resourceBundleName];
+                implString = [NSString stringWithFormat:@"return [UIImage imageNamed:@\"%@\" inBundle:%@Bundle() compatibleWithTraitCollection:nil];", res.originalName, [Session shared].resourceBundleName];
             }
             else
             {
@@ -151,7 +151,7 @@
         {
             if ([Session shared].isResourceBundle)
             {
-                implString = [NSString stringWithFormat:@"return [UIImage imageNamed:@\"%@\" inBundle:[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@\"%@\" ofType:@\"bundle\"]] compatibleWithTraitCollection:nil];", res.originalName, [Session shared].resourceBundleName];
+                implString = [NSString stringWithFormat:@"return [UIImage imageNamed:@\"%@\" inBundle:%@Bundle() compatibleWithTraitCollection:nil];", res.originalName, [Session shared].resourceBundleName];
             }
             else
             {
