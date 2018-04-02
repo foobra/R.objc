@@ -24,7 +24,14 @@
 
 - (NSString *)className
 {
-    return @"R";
+//    if ([Session shared].resourceBundleName)
+//    {
+        return [NSString stringWithFormat:@"R%@", [Session shared].resourceBundleName?:@""];
+//    }
+//    else
+//    {
+//        return @"R";
+//    }
 }
 
 - (BOOL)generateResourceFileWithError:(NSError *__autoreleasing *)error
@@ -88,7 +95,15 @@
         [self.clazz.implementation.lazyGetters addObject:lazy];
         
         // class getter
-        NSString* impl = [NSString stringWithFormat:@"return [[R sharedInstance] %@];", generator.propertyName];
+        NSString* impl = nil;
+//        if ([Session shared].resourceBundleName)
+//        {
+            impl = [NSString stringWithFormat:@"return [[R%@ sharedInstance] %@];", [Session shared].resourceBundleName?:@"",generator.propertyName];
+//        }
+//        else
+//        {
+//            impl = [NSString stringWithFormat:@"return [[R sharedInstance] %@];", generator.propertyName];
+//        }
         RClassMethodImplementation* classGetter = [[RClassMethodImplementation alloc] initWithReturnType:[generator.className stringByAppendingString:@"*"] signature:generator.propertyName implementation:impl];
         [self.clazz.implementation.methods addObject:classGetter];
     }
@@ -250,8 +265,10 @@
         [CommonUtils log:@"Cannot create R.h file at path %@ with error %@", rHPath, [*error localizedDescription]];
         return NO;
     }
-    
-    BOOL mCreated = [@"#import \"R.h\"\n\n" writeToFile:self.resourceFileImplementationPath atomically:YES encoding:NSUTF8StringEncoding error:error];
+
+
+    NSString *name = [NSString stringWithFormat:@"#import \"R%@.h\"\n\n",[Session shared].resourceBundleName?:@""];
+    BOOL mCreated = [name writeToFile:self.resourceFileImplementationPath atomically:YES encoding:NSUTF8StringEncoding error:error];
     if (!mCreated)
     {
         *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotCreateFile userInfo:@{NSFilePathErrorKey:rMPath}];

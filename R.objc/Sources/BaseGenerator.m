@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import "BaseGenerator.h"
+#import "Session.h"
 
 @implementation BaseGenerator
 
@@ -60,12 +61,14 @@
 
 - (NSString *)outputFileHeaderPath
 {
-    return [self.finder.outputURL.path stringByAppendingPathComponent:@"R.h"];
+    NSString *name = [NSString stringWithFormat:@"R%@.h", [Session shared].resourceBundleName?:@""];
+    return [self.finder.outputURL.path stringByAppendingPathComponent:name];
 }
 
 - (NSString *)outputFileImplementationPath
 {
-    return [self.finder.outputURL.path stringByAppendingPathComponent:@"R.m"];
+    NSString *name = [NSString stringWithFormat:@"R%@.m", [Session shared].resourceBundleName?:@""];
+    return [self.finder.outputURL.path stringByAppendingPathComponent:name];
 }
 
 - (BOOL)writeStringInRFilesWithError:(NSError *__autoreleasing *)error

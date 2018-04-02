@@ -29,6 +29,9 @@ typedef NS_OPTIONS(NSUInteger, ResourceType) {
 @property (nonatomic, readonly) BOOL refactorize;
 @property (nonatomic, readonly) BOOL skipStrings;
 @property (nonatomic, readonly) BOOL skipImages;
+@property (nonatomic, readonly) BOOL isDynamicFramework;
+@property (nonatomic, readonly) BOOL isResourceBundle;
+@property (nonatomic, readonly) NSString *resourceBundleName;
 @property (nonatomic, readonly) BOOL skipThemes;
 @property (nonatomic, readonly) BOOL skipStoryboards;
 @property (nonatomic, readonly) BOOL skipSegues;

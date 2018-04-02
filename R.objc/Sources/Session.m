@@ -18,7 +18,8 @@
 typedef NS_ENUM(NSUInteger, ArgType) {
     ArgTypeBaseUnknown,
     ArgTypeBasePath,
-    ArgTypeExcludedDir
+    ArgTypeExcludedDir,
+    ArgTypeResourceName,
 };
 
 @interface Session ()
@@ -29,6 +30,9 @@ typedef NS_ENUM(NSUInteger, ArgType) {
 @property (nonatomic, assign) BOOL isSysdataVersion;
 @property (nonatomic, assign) BOOL refactorize;
 @property (nonatomic, assign) BOOL skipStrings;
+@property (nonatomic, assign) BOOL isDynamicFramework;
+@property (nonatomic, assign) BOOL isResourceBundle;
+@property (nonatomic, copy) NSString *resourceBundleName;
 @property (nonatomic, assign) BOOL skipImages;
 @property (nonatomic, assign) BOOL skipThemes;
 @property (nonatomic, assign) BOOL skipStoryboards;
@@ -80,6 +84,15 @@ static Session* _session;
             [self shared].refactorize = true;
             continue;
         }
+        else if ([s isEqualToString:@"--resource-bundle"])
+        {
+            argType = ArgTypeResourceName;
+        }
+        else if ([s isEqualToString:@"--is-resource-bundle"])
+        {
+            [self shared].isResourceBundle = true;
+            continue;
+        }
         else if ([s isEqualToString:@"--skip-strings"])
         {
             [self shared].skipStrings = true;
@@ -89,7 +102,12 @@ static Session* _session;
         {
             [self shared].skipImages = true;
             continue;
-        } 
+        }
+        else if ([s isEqualToString:@"--dynamic-framework"])
+        {
+            [self shared].isDynamicFramework = true;
+            continue;
+        }
         else if ([s isEqualToString:@"--skip-themes"])
         {
             [self shared].skipThemes = true;
@@ -154,6 +172,11 @@ static Session* _session;
                     return -1;
                 }
                 
+                break;
+            }
+            case ArgTypeResourceName:
+            {
+                [self shared].resourceBundleName = s;
                 break;
             }
             case ArgTypeExcludedDir:

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import "ImagesGenerator.h"
+#import "Session.h"
 
 @interface ImagesResource : NSObject
 @property (nonatomic, strong) NSString* methodName;
@@ -49,7 +50,8 @@
 
 - (NSString *)className
 {
-    return @"RImages";
+
+    return [NSString stringWithFormat:@"R%@Images", [Session shared].resourceBundleName?:@""];
 }
 
 - (NSString *)propertyName
@@ -133,7 +135,29 @@
         [self.clazz.extension.properties addObject:property];
         
         // generate getter implementation
-        NSString* implString = [NSString stringWithFormat:@"return [UIImage imageNamed:@\"%@\"];", res.originalName];
+        NSString* implString = nil;
+        if ([Session shared].isDynamicFramework)
+        {
+            if ([Session shared].isResourceBundle)
+            {
+                implString = [NSString stringWithFormat:@"return [UIImage imageNamed:@\"%@\" inBundle:[NSBundle bundleWithPath:[[NSBundle bundleForClass:self.class] pathForResource:@\"%@\" ofType:@\"bundle\"]] compatibleWithTraitCollection:nil];", res.originalName, [Session shared].resourceBundleName];
+            }
+            else
+            {
+                implString = [NSString stringWithFormat:@"return [UIImage imageNamed:@\"%@\" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];", res.originalName];
+            }
+        }
+        else
+        {
+            if ([Session shared].isResourceBundle)
+            {
+                implString = [NSString stringWithFormat:@"return [UIImage imageNamed:@\"%@\" inBundle:[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@\"%@\" ofType:@\"bundle\"]] compatibleWithTraitCollection:nil];", res.originalName, [Session shared].resourceBundleName];
+            }
+            else
+            {
+                implString = [NSString stringWithFormat:@"return [UIImage imageNamed:@\"%@\"];", res.originalName];
+            }
+        }
         RMethodImplementation *impl = [[RMethodImplementation alloc] initWithReturnType:@"UIImage*" signature:res.methodName implementation:implString];
         [self.clazz.implementation.methods addObject:impl];
     }
@@ -143,8 +167,9 @@
 
 - (NSString *)refactorizeFile:(NSString *)filename withContent:(NSString *)content withError:(NSError *__autoreleasing *)error
 {
-    NSString* baseString = @"R.image.";
-    
+    NSString* baseString = nil;
+    baseString = [NSString stringWithFormat:@"R%@.image.", [Session shared].resourceBundleName?:@""];
+
     NSString* pattern = @"\\[UIImage\\simageNamed:@\"(\\w*)\"\\]";;
     
     NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:error];

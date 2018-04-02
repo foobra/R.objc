@@ -194,8 +194,8 @@
 				TargetAttributes = {
 					06803EAC1ED5BDED0006208A = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = R7FQ553TEY;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = RP7M94CJYH;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -238,13 +238,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-R.objc-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -367,7 +370,8 @@
 			baseConfigurationReference = 18C13112009EA32D40691109 /* Pods-R.objc.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				DEVELOPMENT_TEAM = R7FQ553TEY;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RP7M94CJYH;
 				PRODUCT_NAME = Robjc;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -378,7 +382,8 @@
 			baseConfigurationReference = 2FF7613DC3430DBD2D0C30FC /* Pods-R.objc.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				DEVELOPMENT_TEAM = R7FQ553TEY;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RP7M94CJYH;
 				PRODUCT_NAME = Robjc;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
