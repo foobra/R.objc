@@ -140,22 +140,22 @@
         {
             if ([Session shared].isResourceBundle)
             {
-                implString = [NSString stringWithFormat:@"return [UIImage imageNamed:@\"%@\" inBundle:%@Bundle() compatibleWithTraitCollection:nil];", res.originalName, [Session shared].resourceBundleName];
+                implString = [NSString stringWithFormat:@"UIImage *img = [UIImage imageNamed:@\"%@\" inBundle:%@Bundle() compatibleWithTraitCollection:nil]; if (!img) { NSAssert(NO, @\"image not found\"); } return img;", res.originalName, [Session shared].resourceBundleName];
             }
             else
             {
-                implString = [NSString stringWithFormat:@"return [UIImage imageNamed:@\"%@\" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];", res.originalName];
+                implString = [NSString stringWithFormat:@"UIImage *img = [UIImage imageNamed:@\"%@\" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];  if (!img) { NSAssert(NO, @\"image not found\"); } return img;", res.originalName];
             }
         }
         else
         {
             if ([Session shared].isResourceBundle)
             {
-                implString = [NSString stringWithFormat:@"return [UIImage imageNamed:@\"%@\" inBundle:%@Bundle() compatibleWithTraitCollection:nil];", res.originalName, [Session shared].resourceBundleName];
+                implString = [NSString stringWithFormat:@"UIImage *img = [UIImage imageNamed:@\"%@\" inBundle:%@Bundle() compatibleWithTraitCollection:nil];  if (!img) { NSAssert(NO, @\"image not found\"); } return img;", res.originalName, [Session shared].resourceBundleName];
             }
             else
             {
-                implString = [NSString stringWithFormat:@"return [UIImage imageNamed:@\"%@\"];", res.originalName];
+                implString = [NSString stringWithFormat:@"UIImage *img = [UIImage imageNamed:@\"%@\"];  if (!img) { NSAssert(NO, @\"image not found\"); } return img;", res.originalName];
             }
         }
         RMethodImplementation *impl = [[RMethodImplementation alloc] initWithReturnType:@"UIImage*" signature:res.methodName implementation:implString];
