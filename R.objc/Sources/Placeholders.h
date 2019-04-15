@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #define R_SHARED_INSTANCE @" \
-\n\tstatic dispatch_once_t pred;\n \
-\tstatic id sharedInstance_ = nil;\n \
-\n \
-\tdispatch_once(&pred, ^{\n \
-\t\tsharedInstance_ = [[self alloc] init];\n \
-\t});\n \
-\n \
+\n\tstatic dispatch_once_t pred;\n\
+\tstatic id sharedInstance_ = nil;\n\
+\n\
+\tdispatch_once(&pred, ^{\n\
+\t\tsharedInstance_ = [[self alloc] init];\n\
+\t});\n\
+\n\
 \treturn sharedInstance_;\n"

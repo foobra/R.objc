@@ -247,7 +247,12 @@
         }
     }
     
-    NSMutableString* importString = [NSMutableString stringWithString:@"#import <UIKit/UIKit.h>\n"];
+    NSMutableString* importString;
+    if ([Session shared].resourceBundleName) {
+        importString = [NSMutableString stringWithFormat:@"#import <UIKit/UIKit.h>\n#import \"RResource%@.h\"\n",[Session shared].resourceBundleName];
+    } else {
+        importString = [NSMutableString stringWithFormat:@"#import <UIKit/UIKit.h>\n"];
+    }
     if (!Session.shared.skipStrings && ([Session.shared resourcesToGenerate] & ResourceTypeStrings) && Session.shared.isSysdataVersion)
     {
         [importString appendString:@"@import Glotty;\n"];
